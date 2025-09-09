@@ -1,0 +1,33 @@
+apiVersion: apps/v1 
+kind: Deployment  #Controller
+metadata:
+  name: mc-mp-deploy
+  labels:
+    app: nginx
+spec: 
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+  metadata:
+    name: multi-container-pod 
+  spec:
+    containers:
+    - name: writer    #main
+      image: busybox
+      command: ["/bin/sh", "-c"]
+      args: ["while true; do echo $(date) Writing data to shared volume >> /shared/log.txt; sleep 5; done"]
+      volumeMounts:
+      - name: shared-data
+        mountPath: /shared
+    - name: reader    #helper/sidecar
+      image: busybox
+      command: ["/bin/sh", "-c"]
+      args: ["tail -f /shared/log.txt"]
+      volumeMounts:
+      - name: shared-data
+        mountPath: /shared  
+    volumes:
+    - name: shared-data 
+      emptyDir: {}

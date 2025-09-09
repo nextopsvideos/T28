@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1 
+kind: Deployment  #Controller
+metadata:
+  name: nginx-deploy
+  labels:
+    app: nginx
+    env: prod
+spec: 
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: nginx
+        location: eastus
+    spec:
+      containers:
+        - name: nginx 
+          image: nginx:1.28
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP

@@ -1,0 +1,36 @@
+apiVersion: apps/v1 
+kind: Deployment #Controller
+metadata:
+  name: httpd-deploy
+  labels:
+    app: httpd 
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: httpd  
+  template:
+    metadata:
+      name: httpd
+      labels:
+        app: httpd 
+    spec:
+      containers:
+        - name: httpd  
+          image: httpd
+          ports:
+            - containerPort: 80          
+---
+apiVersion: v1 
+kind: Service
+metadata:
+  name: httpd-service
+  labels:
+    app: httpd
+spec: 
+  selector:
+    app: httpd 
+  ports:
+  - port: 80  #Service Port
+    targetPort: 80  #Pod Port
+  type: ClusterIP  #Internal Access

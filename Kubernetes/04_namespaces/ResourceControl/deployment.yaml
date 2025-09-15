@@ -1,0 +1,45 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    app: nginx
+  namespace: dev-team
+spec:
+  replicas: 14
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx  
+          image: nginx 
+          ports:
+            - containerPort: 80
+          resources: 
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "150m"
+              memory: "150Mi"
+---
+apiVersion: v1 
+kind: Service 
+metadata:
+  name: nginx-service
+  labels:
+    app: nginx
+  namespace: dev-team
+spec:
+  selector:
+    app: nginx
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP

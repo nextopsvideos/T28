@@ -1,0 +1,10 @@
+apiVersion: v1 
+kind: PersistentVolumeClaim 
+metadata:
+  name: manual-fs-vol-claim
+spec:
+  resources:
+    requests:
+      storage: 1Ti
+  accessModes:
+    - ReadWriteMany

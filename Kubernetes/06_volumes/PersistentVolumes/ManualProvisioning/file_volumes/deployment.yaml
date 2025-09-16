@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-fs
+spec:
+  replicas: 25
+  selector:
+    matchLabels:
+      app: nginx-fs
+  template:
+    metadata:
+      labels:
+        app: nginx-fs
+    spec:
+      containers:
+      - name: nginx-fs
+        image: nginx
+        ports:
+          - containerPort: 80
+        volumeMounts:
+          - name: file-volume 
+            mountPath: /file_vol_data
+      volumes:
+        - name: file-volume 
+          persistentVolumeClaim: 
+            claimName: manual-fs-vol-claim

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet 
+metadata:
+  name: mysql
+  labels:
+    app: mysql 
+spec:
+  serviceName: mysql #headless service
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: mysql-root-password
+        volumeMounts:
+        - name: mysql-config
+          mountPath: /etc/mysql/conf.d/ #/etc/mysql/conf.d/my.cnf
+        - name: data-pvc
+          mountPath: /var/lib/mysql #mysql db default location
+      volumes:
+      - name: mysql-config
+        configMap:
+          name: mysql-config 
+  volumeClaimTemplates:
+  - metadata:
+      name: data-pvc
+    spec:
+      resources:
+        requests: 
+          storage: 5Gi
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: standard 

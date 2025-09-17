@@ -1,0 +1,8 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: custom-fs-sc
+provisioner: filestore.csi.storage.gke.io
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
+allowVolumeExpansion: false

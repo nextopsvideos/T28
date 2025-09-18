@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-probes-deployment
+  labels:
+    app: sample-probes
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sample-probes
+  template:
+    metadata:
+      labels:
+        app: sample-probes
+    spec:
+      containers:
+      - name: sample-app
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        startupProbe:
+          httpGet:
+              path: /
+              port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 60
+          timeoutSeconds: 2
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+              path: /
+              port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 3
+          successThreshold: 1

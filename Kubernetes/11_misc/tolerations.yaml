@@ -1,0 +1,29 @@
+# kubectl taint node <node_name> gpuEnabled=yes:NoSchedule
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taints-tol-example
+  labels: 
+    app: nginx-app
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx-app
+  template:
+    metadata:
+      labels:
+        app: nginx-app
+    spec:
+      containers:
+      - name: nginx-app
+        image: nginx
+        ports:
+        - containerPort: 80
+      tolerations:
+      - key: "gpuEnabled"
+        operator: "Equal"
+        value: "yes"
+        effect: "NoSchedule"
+      nodeSelector:
+        gpuEnabled: "yes"

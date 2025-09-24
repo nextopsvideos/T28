@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-exporter
+  labels:
+    app: mongodb-exporter
+    release: k8s-prom-stack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb-exporter
+  template:
+    metadata:
+      labels:
+        app: mongodb-exporter
+    spec:
+      containers:
+      - name: mongodb-exporter
+        image: bitnami/mongodb-exporter:0.36.0
+        args:
+        - "--mongodb.uri=mongodb://admin:password@mongodb:27017"
+        ports:
+        - name: metrics
+          containerPort: 9216
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-exporter
+  labels:
+    app: mongodb-exporter
+    release: k8s-prom-stack
+spec:
+  selector:
+    app: mongodb-exporter
+  ports:
+  - name: metrics
+    port: 9216
+    targetPort: metrics
+    protocol: TCP
+# mongo deploy <--- mongo-service:27017 <---- mongo-exporter-service:9216 <---- scraped by prometheus service monitor <---- prometheus ui <---- grafana

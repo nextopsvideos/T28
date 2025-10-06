@@ -1,5 +1,5 @@
 ﻿$URLs = @(
-  'http://34.173.131.79/productpage' #change the public ip as per your setup
+  'http://34.170.110.157/productpage' #change the public ip as per your setup
 )
 
 $minSeconds = 1 * 1

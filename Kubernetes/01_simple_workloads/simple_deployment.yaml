@@ -19,6 +19,6 @@ spec:
     spec:
       containers:
         - name: nginx 
-          image: nginx:latest
+          image: nextopsacrt28.azurecr.io/nginx:latest
           ports:
             - containerPort: 80     

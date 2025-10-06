@@ -3,7 +3,7 @@ kind: DestinationRule
 metadata:
   name: reviews
 spec: 
-  host: reviews 
+  host: reviews  #ClusterIP Service
   trafficPolicy:
     loadBalancer:
       simple: RANDOM

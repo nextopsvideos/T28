@@ -1,0 +1,9 @@
+terraform import azurerm_resource_group.rg1 /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NextOpsRG01
+
+terraform import azurerm_virtual_network.vnet1 /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NextOpsRG01/providers/Microsoft.Network/virtualNetworks/NextOpsVNET03
+
+terraform import azurerm_subnet.subnet1 /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NextOpsRG01/providers/Microsoft.Network/virtualNetworks/NextOpsVNET03/subnets/Subnet01
+
+terraform import azurerm_subnet.subnet2 /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NextOpsRG01/providers/Microsoft.Network/virtualNetworks/NextOpsVNET03/subnets/AzureBastionSubnet
+
+terraform import azurerm_subnet.subnet3 /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NextOpsRG01/providers/Microsoft.Network/virtualNetworks/NextOpsVNET03/subnets/AzureFirewallManagementSubnet

@@ -1,0 +1,29 @@
+- name: Install multiple pkgs using loop
+  hosts: clients
+  remote_user: root 
+
+  vars:
+    pkgs_list:
+      - tree
+      - wget
+      - curl
+      - nano
+      - vim
+      - nginx
+    
+    service_list:
+      - sshd
+      - cron
+  
+  tasks:
+  - name: Installing common pkgs 
+    apt:
+      name: "{{ item }}"
+      state: present 
+    with_items: "{{ pkgs_list }}"
+ 
+  - name: restart list of services 
+    service:
+      name: "{{ item }}"
+      state: restarted 
+    with_items: "{{ service_list }}"

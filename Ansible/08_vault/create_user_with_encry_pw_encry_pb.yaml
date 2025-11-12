@@ -1,0 +1,12 @@
+- name: Create user with encrypted password and encrypted playbook
+  hosts: clients
+  remote_user: root 
+  vars:
+    secret: Secure123
+
+  tasks: 
+  - name: Create user with encrypted password
+    user:
+      name: user30
+      password: "{{ secret | password_hash('sha512') }}"
+      state: present

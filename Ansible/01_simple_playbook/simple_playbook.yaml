@@ -1,0 +1,28 @@
+- name: Test Connectivity, Install Tree and Create Folders
+  hosts: clients
+  remote_user: root 
+
+  tasks:
+  - name: Test Connectivity 
+    ping: 
+
+  - name: Install Tree
+    apt:
+      name: tree 
+      state: present 
+      update_cache: yes
+
+  - name: Create folder 
+    file:
+      path: /home/charan/folder1
+      state: directory
+
+  - name: Create files in folder1 
+    file:
+      path: /home/charan/folder1/file1.txt
+      state: touch
+  
+  - name: create user1 account
+    user:
+      name: user1
+      password: secure123

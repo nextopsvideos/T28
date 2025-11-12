@@ -1,0 +1,19 @@
+- name: Create a dynamic var during playbook execution
+  hosts: clients
+  remote_user: root 
+
+  tasks:
+  - name: creating hostname dyn var 
+    command: 
+      cmd: hostname
+    register: hostname_var  #creates a dynamic var during play and stores the command output
+  
+  - name: print the value from hostname_var variable 
+    debug:
+      msg: "{{ hostname_var.stdout }}"
+  
+  - name: install net-toold package only on client03
+    apt:
+      name: net-tools
+      state: present
+    when: hostname_var.stdout == "client03"
